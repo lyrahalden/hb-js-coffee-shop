@@ -50,9 +50,15 @@
 
     var myImage = document.getElementById("coffee-image");
     myImage.setAttribute('src', 'static/coffee_beans.jpg');
-    var myRevenueMessage = document.getElementById("message");
+    var myRevenueMessage = document.getElementById("revenue");
 
-    function makeCoffee() {
+    var espresso = document.getElementById("espresso");
+    var latte = document.getElementById("latte");
+    var hotChocolate = document.getElementById("hot-chocolate");
+
+    var drinksOrdered = [];
+
+    function makeCoffee(drinkType) {
         myImage.setAttribute('src', 'static/coffee_machine.jpg');
 
         setTimeout(function() {
@@ -63,9 +69,36 @@
             myImage.setAttribute('src', 'static/coffee_beans.jpg');
         }, 4000);
 
+        drinksOrdered.push(drinkType);
+
+        console.log(drinksOrdered);
+
+        myRevenueMessage.innerHTML = "$ " + revenue();
+
     }
 
-    myImage.addEventListener('click', makeCoffee);
+    function revenue() {
+        var total = 0;
+        for (var drink of drinksOrdered) {
+            total += prices[drink];
+        }
+
+        return total.toFixed(2);
+    }
+
+
+    myImage.addEventListener('click',
+                            function () { return makeCoffee('brew'); });
+
+    latte.addEventListener('click',
+                              function() { return makeCoffee('latte'); });
+
+    espresso.addEventListener('click',
+                              function() { return makeCoffee('espresso'); });
+
+    hotChocolate.addEventListener('click',
+                              function() { return makeCoffee('hot chocolate'); });
+
     // use this JavaScript object in further study step
 
     var prices = {
